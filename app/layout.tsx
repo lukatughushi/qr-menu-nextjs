@@ -13,8 +13,8 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = { 
-  title: "Feane - Restaurant", 
-  description: "Delicious Food Delivered to You" 
+  title: "Pumpkin Café", 
+  description: "Pumpkins Café is a cozy and inspiring space. The ideal spot for premium coffee, healthy lunch, and informal meetings.📍Petre iberi street 24" 
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -13,7 +13,7 @@ export default function Header() {
             {/* აქ ჩაისვა ლოგო span-ის ნაცვლად */}
             <Image 
               src="/images/logo.png" 
-              alt="Feane Logo" 
+              alt="Logo" 
               width={150} // მიუთითე სასურველი სიგანე
               height={50}  // მიუთითე სასურველი სიმაღლე
               priority // პრიორიტეტული ჩატვირთვა ჰედერისთვის
