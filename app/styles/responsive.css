@@ -3,20 +3,35 @@
 @media (max-width: 1120px) {}
 
 @media (max-width: 992px) {
+  /* 1. ჰედერის გასწორება: ვაშორებთ აბსოლუტურ პოზიციას, რომ ტექსტს არ გადაეფაროს */
+  .header_section {
+    position: relative !important;
+    background-color: #222; /* მუქი ფონი მობილურისთვის */
+  }
+
   .hero_area {
     min-height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 2. ტექსტის სივრცე */
+  .hero_area .slider_section {
+    padding-top: 40px;
+    padding-bottom: 40px;
   }
 
   .custom_nav-container .navbar-nav {
     padding-top: 15px;
-padding-left: 0;
+    padding-left: 0;
     align-items: center;
   }
 
-  .user_option{
+  .user_option {
     justify-content: center;
     margin-top: 15px;
   }
+
   .custom_nav-container .navbar-nav .nav-item .nav-link {
     padding: 5px 25px;
     margin: 5px 0;
@@ -39,6 +54,16 @@ padding-left: 0;
 }
 
 @media (max-width: 767px) {
+  /* 3. Hero ტექსტის ზომის ოპტიმიზაცია მობილურისთვის */
+  .slider_section .detail-box h1 {
+    font-size: 2.8rem; /* სათაურის დაპატარავება */
+    line-height: 1.2;
+  }
+
+  .slider_section .detail-box p {
+    font-size: 14px;
+    margin-top: 10px;
+  }
 
   .about_section .detail-box,
   .book_section .form_container {
@@ -60,7 +85,14 @@ padding-left: 0;
   }
 }
 
-@media (max-width: 576px) {}
+@media (max-width: 576px) {
+  /* 4. ბურგერის სურათის ზომა, რომ ეკრანზე დაეტიოს */
+  .slider_section .img-box img {
+    max-width: 90%;
+    height: auto;
+    margin: 0 auto;
+  }
+}
 
 @media (max-width: 480px) {}
 
@@ -78,7 +110,7 @@ padding-left: 0;
 
 @media (max-width: 376px) {
   .slider_section .detail-box h1 {
-    font-size: 3rem;
+    font-size: 2.2rem;
   }
 }
 
@@ -88,10 +120,27 @@ padding-left: 0;
   }
 }
 
-
 @media (min-width:576px) and (max-width:991px) {
   .rent_solution_container .col-md-4.col-sm-6 {
     float: left;
     width: 50%;
+  }
+}
+@media (max-width: 991px) {
+  .header_section {
+    /* მობილურზე ჰედერი აღარ "ტივტივებს" */
+    position: relative !important; 
+    background-color: #222831; /* მყარი ფერი უკეთესი წაკითხვადობისთვის */
+  }
+
+  .slider_section {
+    /* მობილურზე ზედმეტი padding აღარ გვჭირდება, რადგან header უკვე relative-ია */
+    padding: 40px 0 75px 0; 
+  }
+
+  .slider_section .detail-box {
+    /* მობილურზე ტექსტი ცენტრში ჯობია */
+    margin-bottom: 40px;
+    text-align: center;
   }
 }
