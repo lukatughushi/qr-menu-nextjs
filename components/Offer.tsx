@@ -1,28 +1,30 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { useCart } from '../context/CartContext';
 
-// მონაცემების მასივი, რომ კოდი არ იყოს გადატვირთული
+// 1. მონაცემების მასივი ფასებით და უნიკალური ID-ებით
 const offers = [
   {
-    id: 1,
+    id: 101, // ID შევცვალე 101-ზე, რომ მენიუს ID-ებთან არ აირიოს
     title: 'Tasty Thursdays',
     discount: '20%',
+    price: 12, // დავამატე ფასი
     image: '/images/o1.jpg',
-    link: '/menu',
   },
   {
-    id: 2,
+    id: 102,
     title: 'Pizza Days',
     discount: '15%',
+    price: 15, // დავამატე ფასი
     image: '/images/o2.jpg',
-    link: '/menu',
   },
 ];
 
 export default function Offer() {
+  // 2. შემოგვაქვს addToCart ფუნქცია კონტექსტიდან
+  const { addToCart } = useCart();
+
   return (
     <section className="offer_section layout_padding-bottom">
       <div className="offer_container">
@@ -32,7 +34,6 @@ export default function Offer() {
               <div key={offer.id} className="col-md-6">
                 <div className="box">
                   <div className="img-box">
-                    {/* Next.js Image კომპონენტი ოპტიმიზაციისთვის */}
                     <img src={offer.image} alt={offer.title} />
                   </div>
                   <div className="detail-box">
@@ -40,13 +41,33 @@ export default function Offer() {
                     <h6>
                       <span>{offer.discount}</span> Off
                     </h6>
-                    <Link href={offer.link}>
-                      Order Now
+                    
+                    {/* 3. შეცვლილი ღილაკი: Link-ის ნაცვლად ვიყენებთ button-ს */}
+                    <button 
+                      onClick={() => addToCart({
+                        id: offer.id,
+                        title: offer.title,
+                        price: offer.price,
+                        image: offer.image
+                      })}
+                      className="btn"
+                      style={{
+                        backgroundColor: '#ffbe33',
+                        color: 'white',
+                        borderRadius: '45px',
+                        padding: '10px 25px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        border: 'none',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      კალათაში დამატება
                       <svg
                         version="1.1"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 456.029 456.029"
-                        style={{ width: '20px', marginLeft: '10px' }}
+                        style={{ width: '20px', marginLeft: '10px', fill: 'white' }}
                       >
                         <g>
                           <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248 c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
@@ -54,7 +75,7 @@ export default function Offer() {
                           <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296 c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
                         </g>
                       </svg>
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </div>

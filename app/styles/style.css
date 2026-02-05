@@ -137,7 +137,13 @@ a:focus {
 }
 
 .header_section {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  background-color: rgba(34, 40, 49, 0.9); /* მუქი ფონი, რომ ტექსტი გამოჩნდეს */
   padding: 15px 0;
+  transition: all 0.3s ease;
 }
 
 .header_section .container-fluid {

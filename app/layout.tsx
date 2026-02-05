@@ -3,18 +3,20 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
-// იმპორტები: styles ფოლდერი layout.tsx-თან ერთად არის app-ში
+// სტილების იმპორტი - დარწმუნდი, რომ გზა სწორია
 import "./styles/bootstrap.css";
 import "./styles/font-awesome.min.css";
 import "./styles/style.css";
 import "./styles/responsive.css";
+
+import { CartProvider } from "../context/CartContext";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = { 
   title: "Pumpkin Café", 
-  description: "Pumpkins Café is a cozy and inspiring space. The ideal spot for premium coffee, healthy lunch, and informal meetings.📍Petre iberi street 24" 
+  description: "Pumpkins Café is a cozy and inspiring space..." 
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -22,31 +24,29 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ka">
       <head>
         <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
-        {/* გარე ბიბლიოთეკების CSS (CDN) */}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} sub_page`}>
         
-        {children}
+        {/* CartProvider ფარავს მთელ აპლიკაციას მონაცემების გაზიარებისთვის */}
+        <CartProvider>
+          {children}
+        </CartProvider>
 
-        {/* 1. jQuery იტვირთება პირველი - აუცილებელია Bootstrap-ისთვის და სხვებისთვის */}
+        {/* 1. JQuery - აუცილებელია ყველაზე ადრე */}
         <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy="beforeInteractive" />
         
-        {/* 2. Google Maps API - აუცილებელია BookSection-ის რუკისთვის */}
-        {/* შენიშვნა: იმისთვის რომ რუკა გამოჩნდეს, 'YOUR_API_KEY' უნდა ჩაანაცვლო რეალური გასაღებით */}
-            <Script 
-            src="https://maps.googleapis.com/maps/api/js?key=აქ_ჩასვი_შენი_გასაღები&callback=myMap" 
-              strategy="lazyOnload" 
-               />
-
-        {/* 3. ბიბლიოთეკები, რომლებიც jQuery-ს საჭიროებენ */}
-        <Script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" strategy="lazyOnload" />
-        <Script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" strategy="lazyOnload" />
+        {/* 2. Isotope - ფილტრაციის ბიბლიოთეკა (თუ React-ის ძებნა გაჭედავს, ამის ბრალი იქნება) */}
         <Script src="https://unpkg.com/isotope-layout@3.0.6/dist/isotope.pkgd.min.js" strategy="lazyOnload" />
         
-        {/* 4. Bootstrap და შენი ლოკალური სკრიპტები */}
+        {/* 3. დანარჩენი ბიბლიოთეკები */}
+        <Script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" strategy="lazyOnload" />
+        <Script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" strategy="lazyOnload" />
+        
         <Script src="/js/bootstrap.js" strategy="lazyOnload" />
+        
+        {/* 4. custom.js - ბოლოში, რომ ყველაფერი ჩატვირთული დახვდეს */}
         <Script src="/js/custom.js" strategy="lazyOnload" />
       </body>
     </html>
