@@ -10,6 +10,10 @@ import SearchModal from './SearchModal';
 export default function Header() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  
+  // 1. მენიუს მართვის სტეიტი
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
   const { cart, language, setLanguage, t } = useCart();
 
   const toggleCart = () => setIsCartOpen(!isCartOpen);
@@ -23,24 +27,44 @@ export default function Header() {
             <Image src="/images/logo.png" alt="Logo" width={130} height={40} priority />
           </Link>
 
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
-            <span> </span>
+          {/* 2. Toggler ღილაკი, რომელიც ცვლის fa-bars და fa-times ხატულებს */}
+          <button 
+            className="navbar-toggler" 
+            type="button" 
+            data-bs-toggle="collapse" 
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded={isMenuOpen}
+            aria-label="Toggle navigation"
+            onClick={() => setIsMenuOpen(!isMenuOpen)} 
+          >
+            <span className="navbar-toggler-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+               <i className={`fa ${isMenuOpen ? 'fa-times' : 'fa-bars'}`} style={{ color: 'white' }}></i>
+            </span>
           </button>
 
-          <div className={`collapse navbar-collapse ${language === 'ka' ? 'geo-nav' : ''}`} id="navbarSupportedContent">
-            {/* ნავიგაციის სია, რომელიც აიძულებს ელემენტებს დარჩეს ერთ ხაზზე */}
+          <div className={`collapse navbar-collapse ${language === 'ka' ? 'geo-nav' : ''} ${isMenuOpen ? 'show' : ''}`} id="navbarSupportedContent">
             <ul className="navbar-nav mx-auto" style={{ flexDirection: 'row', gap: '5px' }}>
+              {/* 3. ლინკზე დაჭერისას მენიუ იხურება და ხატულა ბრუნდება საწყის სახეში */}
               <li className="nav-item active">
-                <Link className="nav-link" href="#home" style={navLinkStyle}>{language === 'ka' ? 'მთავარი' : 'Home'}</Link>
+                <Link className="nav-link" href="#home" style={navLinkStyle} onClick={() => setIsMenuOpen(false)}>
+                  {language === 'ka' ? 'მთავარი' : 'Home'}
+                </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" href="#menu" style={navLinkStyle}>{t.menu}</Link>
+                <Link className="nav-link" href="#menu" style={navLinkStyle} onClick={() => setIsMenuOpen(false)}>
+                  {t.menu}
+                </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" href="#about" style={navLinkStyle}>{t.about}</Link>
+                <Link className="nav-link" href="#about" style={navLinkStyle} onClick={() => setIsMenuOpen(false)}>
+                  {t.about}
+                </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" href="#book" style={navLinkStyle}>{t.book}</Link>
+                <Link className="nav-link" href="#book" style={navLinkStyle} onClick={() => setIsMenuOpen(false)}>
+                  {t.book}
+                </Link>
               </li>
             </ul>
 
@@ -69,7 +93,7 @@ export default function Header() {
                 <i className="fa fa-search" aria-hidden="true" style={{ fontSize: '18px' }}></i>
               </button>
 
-              <Link href="#menu" className="order_online" style={{ whiteSpace: 'nowrap', padding: '8px 15px' }}>
+              <Link href="#menu" className="order_online" style={{ whiteSpace: 'nowrap', padding: '8px 15px' }} onClick={() => setIsMenuOpen(false)}>
                 {language === 'ka' ? 'შეუკვეთე' : 'Order Online'}
               </Link>
             </div>
@@ -83,7 +107,6 @@ export default function Header() {
   );
 }
 
-// ენის ღილაკის სტილი
 const langButtonStyle: React.CSSProperties = {
   background: 'transparent',
   border: '1px solid #ffbe33',
@@ -97,9 +120,8 @@ const langButtonStyle: React.CSSProperties = {
   whiteSpace: 'nowrap'
 };
 
-// ნავიგაციის ლინკების სტილი ქართული ტექსტისთვის
 const navLinkStyle: React.CSSProperties = {
-  whiteSpace: 'nowrap', // უკრძალავს ტექსტს ქვემოთ ჩამოსვლას
+  whiteSpace: 'nowrap',
   padding: '10px 8px',
   fontSize: '14px'
 };

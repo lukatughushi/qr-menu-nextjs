@@ -270,3 +270,20 @@
     border-top: 1px solid #444;
   }
 }
+@media (max-width: 991px) {
+  .header_section {
+    /* ვცვლით relative-ს fixed-ით, რომ ნავბარმა იმოძრაოს სქროლვისას */
+    position: fixed !important; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10000; /* ძალიან მაღალი ინდექსი, რომ არაფერი გადაეფაროს */
+    background-color: #222831 !important; /* მყარი ფონი, რომ ტექსტი არ აირიოს */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  /* ვამატებთ დაშორებას სლაიდერისთვის, რადგან ჰედერი fixed გახდა */
+  .slider_section {
+    padding-top: 100px !important; 
+  }
+}
