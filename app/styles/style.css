@@ -535,9 +535,11 @@ a:focus {
 }
 
 .food_section .box .img-box img {
-  max-width: 100%;
-  max-height: 145px;
-  -webkit-transition: all .2s;
+max-width: 100%;
+  max-height: 145px; /* დავტოვოთ მაქსიმალური სიმაღლე */
+  width: auto;       /* სიგანე ავტომატურად მოერგოს პროპორციას */
+  height: auto;      /* სიმაღლეც მოერგოს პროპორციას */
+  object-fit: contain; /* cover-ის ნაცვლად გამოიყენე contain, რომ სურათი არ დაიჭრას და არ გაიწელოს */
   transition: all .2s;
 }
 

@@ -8,10 +8,9 @@ interface CartModalProps {
 }
 
 export default function CartModal({ onClose }: CartModalProps) {
-  // შემოგვაქვს საჭირო ფუნქციები კონტექსტიდან
-  const { cart, removeFromCart, increaseQuantity, decreaseQuantity } = useCart();
+  // შემოგვაქვს language, რათა დინამიურად შევცვალოთ პროდუქტის სახელი
+  const { cart, removeFromCart, increaseQuantity, decreaseQuantity, t, language } = useCart();
 
-  // ჯამური ფასის დათვლა რაოდენობის გათვალისწინებით
   const totalPrice = cart.reduce((total: number, item: any) => {
     return total + (item.price * (item.quantity || 1));
   }, 0);
@@ -21,8 +20,9 @@ export default function CartModal({ onClose }: CartModalProps) {
       <div className="cart-modal-content" style={modalStyle}>
         
         <div style={headerStyle}>
-          <h3 style={{ color: '#222', margin: 0 }}>თქვენი კალათა 🛒</h3>
-          <h4 style={{ color: '#ffbe33', margin: '5px 0' }}>სულ: ${totalPrice.toFixed(2)}</h4>
+          {/* თარგმნილი სათაური და ჯამი */}
+          <h3 style={{ color: '#222', margin: 0 }}>{t.cart_title}</h3>
+          <h4 style={{ color: '#ffbe33', margin: '5px 0' }}>{t.total}: ${totalPrice.toFixed(2)}</h4>
           <button onClick={onClose} style={closeButtonStyle}>✖</button>
         </div>
 
@@ -30,79 +30,59 @@ export default function CartModal({ onClose }: CartModalProps) {
 
         <div style={listStyle}>
           {cart.length === 0 ? (
-            <p style={{ textAlign: 'center', padding: '20px', color: '#666' }}>კალათა ცარიელია</p>
+            /* თარგმნილი შეტყობინება ცარიელ კალათაზე */
+            <p style={{ textAlign: 'center', padding: '20px', color: '#666' }}>{t.empty_cart}</p>
           ) : (
-            cart.map((item: any) => (
-              <div key={item.id} style={itemStyle}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                  {item.image && (
-                    <img src={item.image} alt={item.title} style={{ width: '50px', height: '50px', borderRadius: '5px', objectFit: 'cover' }} />
-                  )}
-                  <div>
-                    <h6 style={{ margin: 0, color: '#222' }}>{item.title}</h6>
-                    <span style={{ fontSize: '14px', color: '#666' }}>${item.price}</span>
-                  </div>
-                </div>
-                
-                {/* რაოდენობის მართვის სექცია */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <div style={quantityControlsStyle}>
-                    <button onClick={() => decreaseQuantity(item.id)} style={qtyBtnStyle}>-</button>
-                    <span style={{ fontWeight: 'bold', minWidth: '20px', textAlign: 'center' }}>{item.quantity}</span>
-                    <button onClick={() => increaseQuantity(item.id)} style={qtyBtnStyle}>+</button>
-                  </div>
+            cart.map((item: any) => {
+              // ვირჩევთ სახელს მიმდინარე ენის მიხედვით
+              const displayItemTitle = language === 'ka' ? item.title_ka : item.title_en;
 
-                  <button 
-                    onClick={() => removeFromCart(item.id)} 
-                    style={removeButtonStyle}
-                  >
-                    <i className="fa fa-trash"></i>
-                  </button>
+              return (
+                <div key={item.id} style={itemStyle}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                    {item.image && (
+                      <img src={item.image} alt={displayItemTitle} style={{ width: '50px', height: '50px', borderRadius: '5px', objectFit: 'cover' }} />
+                    )}
+                    <div>
+                      {/* პროდუქტის სახელი ახლა დინამიურია */}
+                      <h6 style={{ margin: 0, color: '#222' }}>{displayItemTitle}</h6>
+                      <span style={{ fontSize: '14px', color: '#666' }}>${item.price}</span>
+                    </div>
+                  </div>
+                  
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={quantityControlsStyle}>
+                      <button onClick={() => decreaseQuantity(item.id)} style={qtyBtnStyle}>-</button>
+                      <span style={{ fontWeight: 'bold', minWidth: '20px', textAlign: 'center' }}>{item.quantity}</span>
+                      <button onClick={() => increaseQuantity(item.id)} style={qtyBtnStyle}>+</button>
+                    </div>
+
+                    <button 
+                      onClick={() => removeFromCart(item.id)} 
+                      style={removeButtonStyle}
+                    >
+                      <i className="fa fa-trash"></i>
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
 
         {cart.length > 0 && (
-          <button style={checkoutButtonStyle}>შეკვეთის გაფორმება</button>
+          /* თარგმნილი შეკვეთის ღილაკი */
+          <button style={checkoutButtonStyle}>{t.checkout}</button>
         )}
       </div>
     </div>
   );
 }
 
-// --- დამატებული და განახლებული სტილები ---
-
-const quantityControlsStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  backgroundColor: '#f8f8f8',
-  borderRadius: '20px',
-  padding: '2px 8px',
-  gap: '8px'
-};
-
-const qtyBtnStyle: React.CSSProperties = {
-  border: 'none',
-  background: 'none',
-  fontSize: '18px',
-  fontWeight: 'bold',
-  cursor: 'pointer',
-  color: '#ffbe33',
-  padding: '0 5px'
-};
-
-const removeButtonStyle: React.CSSProperties = {
-  color: '#ff4d4d',
-  background: 'none',
-  border: 'none',
-  cursor: 'pointer',
-  fontSize: '16px',
-  marginLeft: '5px'
-};
-
-// (overlayStyle, modalStyle, headerStyle, closeButtonStyle, listStyle, itemStyle, checkoutButtonStyle იგივე რჩება)
+// --- სტილები უცვლელია ---
+const quantityControlsStyle: React.CSSProperties = { display: 'flex', alignItems: 'center', backgroundColor: '#f8f8f8', borderRadius: '20px', padding: '2px 8px', gap: '8px' };
+const qtyBtnStyle: React.CSSProperties = { border: 'none', background: 'none', fontSize: '18px', fontWeight: 'bold', cursor: 'pointer', color: '#ffbe33', padding: '0 5px' };
+const removeButtonStyle: React.CSSProperties = { color: '#ff4d4d', background: 'none', border: 'none', cursor: 'pointer', fontSize: '16px', marginLeft: '5px' };
 const overlayStyle: React.CSSProperties = { position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.8)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 10000 };
 const modalStyle: React.CSSProperties = { backgroundColor: 'white', padding: '25px', borderRadius: '15px', width: '95%', maxWidth: '450px', maxHeight: '80vh', overflowY: 'auto', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' };
 const headerStyle: React.CSSProperties = { display: 'flex', flexDirection: 'column', position: 'relative', gap: '5px' };

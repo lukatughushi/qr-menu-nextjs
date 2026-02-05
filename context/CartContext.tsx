@@ -1,17 +1,22 @@
 'use client';
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+// 1. შემოგვაქვს თარგმანების ობიექტი
+import { translations } from '../translations'; 
 
-// 1. ინტერფეისში ვამატებთ ახალ ფუნქციებს
 interface CartContextType {
   cart: any[];
   searchTerm: string;
   setSearchTerm: (term: string) => void;
   addToCart: (product: any) => void;
   removeFromCart: (productId: number) => void;
-  increaseQuantity: (productId: number) => void; // რაოდენობის მომატება
-  decreaseQuantity: (productId: number) => void; // რაოდენობის მოკლება
+  increaseQuantity: (productId: number) => void;
+  decreaseQuantity: (productId: number) => void;
   clearCart: () => void;
+  // 2. ვამატებთ ენის მართვის ტიპებს
+  language: 'ka' | 'en';
+  setLanguage: (lang: 'ka' | 'en') => void;
+  t: any; // თარგმანების მიმდინარე ლექსიკონი
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -19,6 +24,12 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  
+  // 3. ენის მდგომარეობის (State) შექმნა
+  const [language, setLanguage] = useState<'ka' | 'en'>('ka'); 
+
+  // 4. მიმდინარე თარგმანის შერჩევა არჩეული ენის მიხედვით
+  const t = translations[language];
 
   const addToCart = (product: any) => {
     setCart((prevCart) => {
@@ -34,7 +45,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  // 2. რაოდენობის მომატების ფუნქცია
   const increaseQuantity = (productId: number) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
@@ -45,7 +55,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
-  // 3. რაოდენობის მოკლების ფუნქცია
   const decreaseQuantity = (productId: number) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
@@ -71,7 +80,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       removeFromCart,
       increaseQuantity,
       decreaseQuantity,
-      clearCart
+      clearCart,
+      // 5. ენის მნიშვნელობების გადაცემა კომპონენტებისთვის
+      language,
+      setLanguage,
+      t
     }}>
       {children}
     </CartContext.Provider>

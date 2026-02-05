@@ -2,11 +2,14 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useCart } from '../context/CartContext'; // შემოგვაქვს ჰუკი
 
 export default function Hero() {
+  // ვიღებთ თარგმანებს კონტექსტიდან
+  const { t } = useCart();
+
   return (
     <section className="slider_section">
-      {/* დავამატე data-ride და data-interval ავტომატური გადასვლისთვის (3 წამი) */}
       <div 
         id="customCarousel1" 
         className="carousel slide" 
@@ -21,13 +24,11 @@ export default function Hero() {
               <div className="row">
                 <div className="col-md-7 col-lg-6">
                   <div className="detail-box">
-                    <h1>Fast Food Restaurant</h1>
-                    <p>
-                      Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
-                    </p>
+                    <h1>{t.hero_title}</h1>
+                    <p>{t.hero_desc}</p>
                     <div className="btn-box">
-                      <Link href="/menu" className="btn1">
-                        Order Now
+                      <Link href="#menu" className="btn1">
+                        {t.order_now}
                       </Link>
                     </div>
                   </div>
@@ -42,13 +43,11 @@ export default function Hero() {
               <div className="row">
                 <div className="col-md-7 col-lg-6">
                   <div className="detail-box">
-                    <h1>Delicious Pizza & Burgers</h1>
-                    <p>
-                      Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
-                    </p>
+                    <h1>{t.hero_title2}</h1>
+                    <p>{t.hero_desc}</p>
                     <div className="btn-box">
-                      <Link href="/menu" className="btn1">
-                        Order Now
+                      <Link href="#menu" className="btn1">
+                        {t.order_now}
                       </Link>
                     </div>
                   </div>
@@ -63,13 +62,11 @@ export default function Hero() {
               <div className="row">
                 <div className="col-md-7 col-lg-6">
                   <div className="detail-box">
-                    <h1>Best Quality Food</h1>
-                    <p>
-                      Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
-                    </p>
+                    <h1>{t.hero_title3}</h1>
+                    <p>{t.hero_desc}</p>
                     <div className="btn-box">
-                      <Link href="/menu" className="btn1">
-                        Order Now
+                      <Link href="#menu" className="btn1">
+                        {t.order_now}
                       </Link>
                     </div>
                   </div>
@@ -80,7 +77,6 @@ export default function Hero() {
 
         </div>
 
-        {/* სლაიდერის ინდიკატორები (წერტილები) */}
         <div className="container">
           <ol className="carousel-indicators">
             <li data-target="#customCarousel1" data-slide-to="0" className="active"></li>

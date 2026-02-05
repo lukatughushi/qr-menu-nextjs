@@ -2,8 +2,11 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useCart } from '../context/CartContext'; //
 
 export default function Footer() {
+  const { t } = useCart(); //
+
   return (
     <footer className="footer_section">
       <div className="container">
@@ -11,11 +14,11 @@ export default function Footer() {
           {/* კონტაქტები */}
           <div className="col-md-4 footer-col">
             <div className="footer_contact">
-              <h4>Contact Us</h4>
+              <h4>{t.footer_contact}</h4>
               <div className="contact_link_box">
                 <Link href="">
                   <i className="fa fa-map-marker" aria-hidden="true"></i>
-                  <span>Location</span>
+                  <span>{t.footer_location}</span>
                 </Link>
                 <Link href="">
                   <i className="fa fa-phone" aria-hidden="true"></i>
@@ -33,11 +36,9 @@ export default function Footer() {
           <div className="col-md-4 footer-col">
             <div className="footer_detail">
               <Link href="/" className="footer-logo">
-                Feane
+                Pumpkins
               </Link>
-              <p>
-                Necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with
-              </p>
+              <p>{t.footer_desc}</p>
               <div className="footer_social">
                 <Link href=""><i className="fa fa-facebook" aria-hidden="true"></i></Link>
                 <Link href=""><i className="fa fa-twitter" aria-hidden="true"></i></Link>
@@ -50,19 +51,18 @@ export default function Footer() {
 
           {/* სამუშაო საათები */}
           <div className="col-md-4 footer-col">
-            <h4>Opening Hours</h4>
-            <p>Everyday</p>
-            <p>10.00 Am -10.00 Pm</p>
+            <h4>{t.footer_opening}</h4>
+            <p>{t.footer_everyday}</p>
+            <p>10.00 Am - 10.00 Pm</p>
           </div>
         </div>
 
-        {/* საავტორო უფლებები - აქ მუშაობს displayYear */}
         <div className="footer-info">
           <p>
-            &copy; <span id="displayYear"></span> All Rights Reserved By{' '}
+            &copy; 2026 {t.footer_rights}{' '}
             <a href="https://html.design/" target="_blank" rel="noreferrer">Free Html Templates</a>
             <br /><br />
-            &copy; <span id="displayYear"></span> Distributed By{' '}
+            &copy; {t.footer_dist}{' '}
             <a href="https://themewagon.com/" target="_blank" rel="noreferrer">ThemeWagon</a>
           </p>
         </div>
