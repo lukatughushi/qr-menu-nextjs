@@ -6,11 +6,10 @@ import About from "../components/About";
 import BookSection from "../components/BookSection";
 import Footer from "../components/Footer";
 
-
 export default function Home() {
   return (
     <>
-      <div className="hero_area">
+      <div className="hero_area" id="home">
         <div className="bg-box">
           <img src="/images/hero-bg.jpg" alt="Background" />
         </div>
@@ -18,20 +17,25 @@ export default function Home() {
         <Hero />
       </div>
 
-      {/* Offer სექცია დამატებულია hero_area-ს გარეთ სწორი ვიზუალისთვის */}
       <main>
+        {/* Offer სექცია ჩვეულებრივ რჩება */}
         <Offer />
         
-    
-        <FoodSection />
+        {/* ID-ები ნავბარიდან სქროლვისთვის */}
+        <section id="menu">
+          <FoodSection />
+        </section>
 
-        <About />
+        <section id="about">
+          <About />
+        </section>
 
-        <BookSection />
-
-        <Footer />
-       
+        <section id="book">
+          <BookSection />
+        </section>
       </main>
+
+      <Footer />
     </>
   );
 }

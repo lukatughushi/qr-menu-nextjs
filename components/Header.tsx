@@ -2,21 +2,20 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image'; // დაამატე იმპორტი
+import Image from 'next/image';
 
 export default function Header() {
   return (
     <header className="header_section">
       <div className="container">
         <nav className="navbar navbar-expand-lg custom_nav-container">
-          <Link className="navbar-brand" href="/">
-            {/* აქ ჩაისვა ლოგო span-ის ნაცვლად */}
+          <Link className="navbar-brand" href="#home">
             <Image 
               src="/images/logo.png" 
               alt="Logo" 
-              width={150} // მიუთითე სასურველი სიგანე
-              height={50}  // მიუთითე სასურველი სიმაღლე
-              priority // პრიორიტეტული ჩატვირთვა ჰედერისთვის
+              width={150} 
+              height={50}  
+              priority 
             />
           </Link>
 
@@ -35,23 +34,28 @@ export default function Header() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mx-auto">
               <li className="nav-item active">
-                <Link className="nav-link" href="/">Home</Link>
+                {/* შეცვლილია href="#home" */}
+                <Link className="nav-link" href="#home">Home</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" href="/menu">Menu</Link>
+                {/* შეცვლილია href="#menu" */}
+                <Link className="nav-link" href="#menu">Menu</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" href="/about">About</Link>
+                {/* შეცვლილია href="#about" */}
+                <Link className="nav-link" href="#about">About</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" href="/book">Book Table</Link>
+                {/* შეცვლილია href="#book" */}
+                <Link className="nav-link" href="#book">Book Table</Link>
               </li>
             </ul>
             <div className="user_option">
-              <Link href="/profile" className="user_link">
+              {/* SPA რეჟიმში მომხმარებლის ღილაკი შეგიძლიათ დატოვოთ ან წაშალოთ 404-ის ასაცილებლად */}
+              <Link href="#home" className="user_link">
                 <i className="fa fa-user" aria-hidden="true"></i>
               </Link>
-              <Link className="cart_link" href="/cart">
+              <Link className="cart_link" href="#home">
                 <svg version="1.1" width="20" height="20" viewBox="0 0 456.029 456.029" style={{fill: 'white'}}>
                   <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248 c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
                   <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48 C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064 c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4 C457.728,97.71,450.56,86.958,439.296,84.91z" />
@@ -63,7 +67,8 @@ export default function Header() {
                   <i className="fa fa-search" aria-hidden="true"></i>
                 </button>
               </form>
-              <Link href="/order" className="order_online">
+              {/* Order Online ღილაკიც გადავიყვანოთ მენიუზე */}
+              <Link href="#menu" className="order_online">
                 Order Online
               </Link>
             </div>
