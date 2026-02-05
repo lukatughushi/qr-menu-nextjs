@@ -144,3 +144,129 @@
     text-align: center;
   }
 }
+@media (max-width: 992px) {
+  /* 1. ჰედერის გასწორება */
+  .header_section {
+    position: relative !important;
+    background-color: #222831 !important; /* */
+  }
+
+  /* ნავიგაციის ჩამონათვალი მობაილზე */
+  .navbar-collapse {
+    background-color: #222831;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+
+  /* აიძულებს ელემენტებს დალაგდნენ ვერტიკალურად ჩამოშლილ მენიუში */
+  .custom_nav-container .navbar-nav {
+    flex-direction: column !important; 
+    align-items: center !important;
+    gap: 10px;
+  }
+
+  /* ქართული ტექსტის ოპტიმიზაცია მობაილისთვის */
+  .geo-nav .nav-link {
+    font-size: 16px !important;
+    white-space: normal !important; /* მობაილზე ჩამოსვლა დასაშვებია */
+    text-align: center;
+  }
+
+  /* მომხმარებლის ოფციები (ენა, კალათა, ძებნა) */
+  .user_option {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* */
+    gap: 15px;
+    margin-top: 20px;
+    padding-bottom: 10px;
+  }
+
+  /* "შეუკვეთე" ღილაკის გასწორება */
+  .order_online {
+    margin-top: 5px;
+    width: 80%; /* მობაილზე უფრო განიერი ღილაკი */
+    text-align: center;
+  }
+
+  .hero_area {
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ... დანარჩენი შენი კოდი 992px-ისთვის ... */
+}
+
+@media (max-width: 576px) {
+  /* ლოგოს ზომის ოპტიმიზაცია პატარა ეკრანებისთვის */
+  .navbar-brand img {
+    width: 110px !important;
+    height: auto !important;
+  }
+
+  /* ენის გადამრთველის და კალათის დაშორება */
+  .user_option {
+    gap: 10px;
+  }
+
+  /* ბურგერის სურათის ზომა */
+  .slider_section .img-box img {
+    max-width: 85%;
+    height: auto;
+    margin: 0 auto;
+  }
+}@media (max-width: 991px) {
+  /* 1. ჰედერის კონტეინერის გასწორება */
+  .custom_nav-container {
+    padding: 10px 15px !important;
+    flex-wrap: wrap; /* საშუალებას აძლევს ელემენტებს ჩამოიშალონ */
+  }
+
+  /* 2. ჩამოსაშლელი მენიუს (Collapse) სტილი */
+  .navbar-collapse {
+    position: absolute;
+    top: 100%; /* ჰედერის ქვემოთ */
+    left: 0;
+    width: 100%;
+    background-color: #222831; /* მყარი მუქი ფონი */
+    z-index: 999;
+    padding: 20px;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.5);
+    border-top: 1px solid #333;
+  }
+
+  /* 3. ნავიგაციის სიის გასწორება */
+  .navbar-nav {
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100%;
+    padding: 0 !important;
+  }
+
+  .nav-item {
+    width: 100%;
+    text-align: center;
+    margin: 10px 0 !important;
+  }
+
+  .nav-link {
+    font-size: 18px !important;
+    display: block !important;
+    width: 100%;
+  }
+
+  /* 4. მომხმარებლის ოფციები (ენა, ძებნა, კალათა) */
+  .user_option {
+    flex-direction: row !important; /* მობილურზეც დარჩეს გვერდიგვერდ */
+    justify-content: center !important;
+    width: 100%;
+    margin-top: 20px;
+    gap: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #444;
+  }
+}
