@@ -60,10 +60,6 @@ export default function Footer() {
         <div className="footer-info">
           <p>
             &copy; 2026 {t.footer_rights}{' '}
-            <a href="https://html.design/" target="_blank" rel="noreferrer">Free Html Templates</a>
-            <br /><br />
-            &copy; {t.footer_dist}{' '}
-            <a href="https://themewagon.com/" target="_blank" rel="noreferrer">ThemeWagon</a>
           </p>
         </div>
       </div>
