@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useCart } from '../context/CartContext';
 
-// 1. მონაცემთა მასივი განახლებული ორენოვანი სათაურებით
+// მონაცემთა მასივი
 const menuItems = [
   { id: 1, title_en: "Delicious Pizza", title_ka: "გემრიელი პიცა", price: 20, category: "pizza", image: "/images/f1.png" },
   { id: 2, title_en: "Delicious Burger", title_ka: "გემრიელი ბურგერი", price: 15, category: "burger", image: "/images/f2.png" },
@@ -17,30 +17,33 @@ const menuItems = [
 ];
 
 export default function SearchModal({ onClose }: { onClose: () => void }) {
-  // შემოგვაქვს ენის პარამეტრები და თარგმანები კონტექსტიდან
   const { searchTerm, setSearchTerm, addToCart, language, t } = useCart(); 
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // ფოკუსირება ინპუტზე გახსნისას
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
-  // 2. ფილტრაციის ლოგიკა მიმდინარე ენის გათვალისწინებით
+  // განახლებული ფილტრაციის ლოგიკა: ეძებს ორივე ენის ველში ერთდროულად
   const filteredResults = searchTerm.trim() === "" 
     ? [] 
     : menuItems.filter((item) => {
-        const currentTitle = language === 'ka' ? item.title_ka : item.title_en;
-        return currentTitle.toLowerCase().includes(searchTerm.toLowerCase());
+        const search = searchTerm.toLowerCase();
+        // ამოწმებს ინგლისურ სათაურს ან ქართულ სათაურს
+        return (
+          item.title_en.toLowerCase().includes(search) || 
+          item.title_ka.toLowerCase().includes(search)
+        );
       });
 
   return (
-    <div style={overlayStyle}>
-      <div style={modalStyle}>
-        <div style={{ display: 'flex', alignItems: 'center', position: 'relative', marginBottom: '20px' }}>
+    <div style={overlayStyle} onClick={onClose}>
+      <div style={modalStyle} onClick={(e) => e.stopPropagation()}>
+        <div style={searchHeaderStyle}>
           <input
             ref={inputRef}
             type="text"
-            // ვიყენებთ თარგმნილ placeholder-ს translations.ts-დან
             placeholder={t.search_placeholder} 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -52,19 +55,19 @@ export default function SearchModal({ onClose }: { onClose: () => void }) {
         <div style={resultsContainerStyle}>
           {filteredResults.length > 0 ? (
             filteredResults.map((item) => {
+              // ეკრანზე გამოსაჩენი სათაური მაინც დამოკიდებულია არჩეულ ენაზე
               const displayTitle = language === 'ka' ? item.title_ka : item.title_en;
               return (
                 <div key={item.id} style={resultItemStyle}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                    <img src={item.image} alt={displayTitle} style={{ width: '50px', height: '50px', borderRadius: '10px' }} />
+                    <img src={item.image} alt={displayTitle} style={imageStyle} />
                     <div>
-                      <h6 style={{ color: 'white', margin: 0 }}>{displayTitle}</h6>
-                      <span style={{ color: '#ffbe33' }}>${item.price}</span>
+                      <h6 style={titleStyle}>{displayTitle}</h6>
+                      <span style={priceStyle}>${item.price}</span>
                     </div>
                   </div>
                   <button 
                     onClick={() => { 
-                      // გადავცემთ სრულ ობიექტს კალათაში დინამიური თარგმანისთვის
                       addToCart({
                         id: item.id,
                         title_en: item.title_en,
@@ -82,11 +85,9 @@ export default function SearchModal({ onClose }: { onClose: () => void }) {
               );
             })
           ) : searchTerm.trim() !== "" ? (
-            <p style={{ color: '#ccc', textAlign: 'center' }}>{t.no_results}</p>
+            <p style={infoTextStyle}>{t.no_results}</p>
           ) : (
-            <p style={{ color: '#ccc', textAlign: 'center' }}>
-              {language === 'ka' ? 'დაიწყეთ წერა მოსაძებნად...' : 'Start typing to search...'}
-            </p>
+            <p style={infoTextStyle}>{t.start_typing}</p>
           )}
         </div>
       </div>
@@ -94,11 +95,50 @@ export default function SearchModal({ onClose }: { onClose: () => void }) {
   );
 }
 
-// სტილები
-const overlayStyle: React.CSSProperties = { position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.95)', display: 'flex', justifyContent: 'center', paddingTop: '80px', zIndex: 11000 };
-const modalStyle: React.CSSProperties = { width: '90%', maxWidth: '600px' };
-const inputStyle: React.CSSProperties = { width: '100%', padding: '15px 25px', borderRadius: '30px', border: '2px solid #ffbe33', backgroundColor: 'transparent', color: 'white', fontSize: '20px', outline: 'none' };
-const closeBtnStyle: React.CSSProperties = { position: 'absolute', right: '20px', background: 'none', border: 'none', color: '#ffbe33', fontSize: '24px', cursor: 'pointer' };
-const resultsContainerStyle: React.CSSProperties = { maxHeight: '400px', overflowY: 'auto', paddingRight: '10px', marginTop: '20px' };
-const resultItemStyle: React.CSSProperties = { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', borderBottom: '1px solid #333', marginBottom: '10px' };
-const addBtnStyle: React.CSSProperties = { backgroundColor: '#ffbe33', border: 'none', padding: '5px 15px', borderRadius: '20px', color: 'white', cursor: 'pointer', fontWeight: 'bold' };
+// სტილები უცვლელია
+const overlayStyle: React.CSSProperties = {
+  position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+  backgroundColor: 'rgba(0, 0, 0, 0.9)', display: 'flex', justifyContent: 'center',
+  paddingTop: '5vh', zIndex: 11000, backdropFilter: 'blur(5px)'
+};
+
+const modalStyle: React.CSSProperties = {
+  width: '95%', maxWidth: '600px', background: '#222831', 
+  padding: '20px', borderRadius: '15px', maxHeight: '80vh', display: 'flex', flexDirection: 'column'
+};
+
+const searchHeaderStyle: React.CSSProperties = {
+  display: 'flex', alignItems: 'center', position: 'relative', marginBottom: '15px'
+};
+
+const inputStyle: React.CSSProperties = {
+  width: '100%', padding: '12px 20px', borderRadius: '25px', border: '2px solid #ffbe33',
+  backgroundColor: '#fff', color: '#222', fontSize: '16px', outline: 'none'
+};
+
+const closeBtnStyle: React.CSSProperties = {
+  position: 'absolute', right: '15px', background: 'none', border: 'none',
+  color: '#222', fontSize: '20px', cursor: 'pointer'
+};
+
+const resultsContainerStyle: React.CSSProperties = {
+  overflowY: 'auto', marginTop: '10px', paddingRight: '5px'
+};
+
+const resultItemStyle: React.CSSProperties = {
+  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+  padding: '12px', borderBottom: '1px solid #333', marginBottom: '8px'
+};
+
+const imageStyle: React.CSSProperties = {
+  width: '45px', height: '45px', borderRadius: '8px', objectFit: 'cover'
+};
+
+const titleStyle: React.CSSProperties = { color: 'white', margin: 0, fontSize: '14px' };
+const priceStyle: React.CSSProperties = { color: '#ffbe33', fontSize: '13px' };
+const infoTextStyle: React.CSSProperties = { color: '#ccc', textAlign: 'center', marginTop: '20px', fontSize: '14px' };
+
+const addBtnStyle: React.CSSProperties = {
+  backgroundColor: '#ffbe33', border: 'none', padding: '6px 12px',
+  borderRadius: '20px', color: 'white', cursor: 'pointer', fontWeight: 'bold', fontSize: '12px'
+};

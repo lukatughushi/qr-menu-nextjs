@@ -1,6 +1,60 @@
 @media (max-width: 1300px) {}
 
 @media (max-width: 1120px) {}
+@media (max-width: 991px) {
+  /* 1. ჰედერის სიმაღლის მინიმუმამდე დაყვანა */
+  .header_section {
+    padding: 0 !important; /* სრულად ვაშორებთ დაშორებებს */
+    height: 50px !important; /* ვაფიქსირებთ პატარა სიმაღლეს */
+    display: flex;
+    align-items: center;
+  }
+
+  /* 2. ლოგოს კონტეინერის და სურათის შემცირება */
+  .navbar-brand {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar-brand img {
+    width: 80px !important; /* ლოგოს საგრძნობლად დაპატარავება */
+    height: auto !important;
+    max-height: 35px; /* სიმაღლის ლიმიტი ლოგოსთვის */
+  }
+
+  /* 3. ნავბარის კონტეინერის სიმაღლის გასწორება */
+  .custom_nav-container {
+    height: 100%;
+    padding: 0 10px !important;
+  }
+
+  /* 4. ჰამბურგერ/იქს ღილაკის შემცირება */
+  .navbar-toggler {
+    padding: 0 !important;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none !important;
+  }
+
+  .navbar-toggler-icon i {
+    font-size: 1.1rem !important;
+  }
+
+  /* 5. ენის და კალათის ხატულების დაპატარავება */
+  .user_option {
+    margin: 0 !important;
+    gap: 8px !important;
+  }
+
+  .lang_btn, .cart_link svg {
+    transform: scale(0.85); /* ყველა ხატულას 15%-ით ვამცირებთ */
+  }
+}
 
 @media (max-width: 992px) {
   /* 1. ჰედერის გასწორება: ვაშორებთ აბსოლუტურ პოზიციას, რომ ტექსტს არ გადაეფაროს */

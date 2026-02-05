@@ -1,7 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-// 1. შემოგვაქვს თარგმანების ობიექტი
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { translations } from '../translations'; 
 
 interface CartContextType {
@@ -13,22 +12,45 @@ interface CartContextType {
   increaseQuantity: (productId: number) => void;
   decreaseQuantity: (productId: number) => void;
   clearCart: () => void;
-  // 2. ვამატებთ ენის მართვის ტიპებს
   language: 'ka' | 'en';
   setLanguage: (lang: 'ka' | 'en') => void;
-  t: any; // თარგმანების მიმდინარე ლექსიკონი
+  t: any;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
+  // 1. კალათის საწყისი სტეიტი არის ცარიელი მასივი
   const [cart, setCart] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  
-  // 3. ენის მდგომარეობის (State) შექმნა
-  const [language, setLanguage] = useState<'ka' | 'en'>('ka'); 
+  const [language, setLanguage] = useState<'ka' | 'en'>('ka');
 
-  // 4. მიმდინარე თარგმანის შერჩევა არჩეული ენის მიხედვით
+  // 2. გვერდის პირველადი ჩატვირთვისას ამოვიღოთ შენახული მონაცემები
+  useEffect(() => {
+    // ენის ამოღება
+    const savedLanguage = localStorage.getItem('app_language') as 'ka' | 'en';
+    if (savedLanguage) setLanguage(savedLanguage);
+
+    // კალათის პროდუქტების ამოღება
+    const savedCart = localStorage.getItem('app_cart');
+    if (savedCart) {
+      try {
+        setCart(JSON.parse(savedCart)); // JSON ტექსტს ვაქცევთ ისევ მასივად
+      } catch (error) {
+        console.error("კალათის მონაცემების წაკითხვის შეცდომა:", error);
+      }
+    }
+  }, []);
+
+  // 3. ყოველ ჯერზე, როცა ენა ან კალათა შეიცვლება, ვინახავთ localStorage-ში
+  useEffect(() => {
+    localStorage.setItem('app_language', language);
+  }, [language]);
+
+  useEffect(() => {
+    localStorage.setItem('app_cart', JSON.stringify(cart)); // მასივს ვაქცევთ ტექსტად შესანახად
+  }, [cart]);
+
   const t = translations[language];
 
   const addToCart = (product: any) => {
@@ -81,7 +103,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       increaseQuantity,
       decreaseQuantity,
       clearCart,
-      // 5. ენის მნიშვნელობების გადაცემა კომპონენტებისთვის
       language,
       setLanguage,
       t
