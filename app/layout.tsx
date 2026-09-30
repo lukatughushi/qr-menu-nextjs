@@ -21,13 +21,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ka">
+    <html lang="ka" suppressHydrationWarning>
       <head>
         <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} sub_page`}>
+      <body 
+        className={`${geistSans.variable} ${geistMono.variable} sub_page`}
+        suppressHydrationWarning
+      >
         
         {/* CartProvider ფარავს მთელ აპლიკაციას მონაცემების გაზიარებისთვის */}
         <CartProvider>
@@ -36,7 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* 1. JQuery - აუცილებელია ყველაზე ადრე */}
         <Script src="https://code.jquery.com/jquery-3.4.1.min.js" strategy="beforeInteractive" />
-        
+
         {/* 2. Isotope - ფილტრაციის ბიბლიოთეკა (თუ React-ის ძებნა გაჭედავს, ამის ბრალი იქნება) */}
         <Script src="https://unpkg.com/isotope-layout@3.0.6/dist/isotope.pkgd.min.js" strategy="lazyOnload" />
         

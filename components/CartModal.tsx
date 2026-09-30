@@ -22,7 +22,7 @@ export default function CartModal({ onClose }: CartModalProps) {
         <div style={headerStyle}>
           {/* თარგმნილი სათაური და ჯამი */}
           <h3 style={{ color: '#222', margin: 0 }}>{t.cart_title}</h3>
-          <h4 style={{ color: '#ffbe33', margin: '5px 0' }}>{t.total}: ${totalPrice.toFixed(2)}</h4>
+          <h4 style={{ color: '#ffbe33', margin: '5px 0' }}>{t.total}: ₾{totalPrice.toFixed(2)}</h4>
           <button onClick={onClose} style={closeButtonStyle}>✖</button>
         </div>
 
@@ -46,7 +46,7 @@ export default function CartModal({ onClose }: CartModalProps) {
                     <div>
                       {/* პროდუქტის სახელი ახლა დინამიურია */}
                       <h6 style={{ margin: 0, color: '#222' }}>{displayItemTitle}</h6>
-                      <span style={{ fontSize: '14px', color: '#666' }}>${item.price}</span>
+                      <span style={{ fontSize: '14px', color: '#666' }}>₾{item.price}</span>
                     </div>
                   </div>
                   

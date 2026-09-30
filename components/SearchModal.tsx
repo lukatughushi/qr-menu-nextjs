@@ -63,7 +63,7 @@ export default function SearchModal({ onClose }: { onClose: () => void }) {
                     <img src={item.image} alt={displayTitle} style={imageStyle} />
                     <div>
                       <h6 style={titleStyle}>{displayTitle}</h6>
-                      <span style={priceStyle}>${item.price}</span>
+                      <span style={priceStyle}>₾{item.price}</span>
                     </div>
                   </div>
                   <button 
@@ -135,7 +135,7 @@ const imageStyle: React.CSSProperties = {
 };
 
 const titleStyle: React.CSSProperties = { color: 'white', margin: 0, fontSize: '14px' };
-const priceStyle: React.CSSProperties = { color: '#ffbe33', fontSize: '13px' };
+const priceStyle: React.CSSProperties = { color: '#ffbe33', fontSize: '13px', fontFamily: 'inherit' };
 const infoTextStyle: React.CSSProperties = { color: '#ccc', textAlign: 'center', marginTop: '20px', fontSize: '14px' };
 
 const addBtnStyle: React.CSSProperties = {

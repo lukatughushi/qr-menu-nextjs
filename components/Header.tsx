@@ -28,15 +28,16 @@ export default function Header() {
           </Link>
 
           {/* 2. Toggler ღილაკი, რომელიც ცვლის fa-bars და fa-times ხატულებს */}
-          <button 
-            className="navbar-toggler" 
-            type="button" 
-            data-bs-toggle="collapse" 
+          <button
+            className="navbar-toggler d-lg-none"
+            type="button"
+            data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent"
             aria-expanded={isMenuOpen}
             aria-label="Toggle navigation"
-            onClick={() => setIsMenuOpen(!isMenuOpen)} 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            style={{ minWidth: 44, minHeight: 44 }}
           >
             <span className="navbar-toggler-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                <i className={`fa ${isMenuOpen ? 'fa-times' : 'fa-bars'}`} style={{ color: 'white' }}></i>
@@ -44,7 +45,7 @@ export default function Header() {
           </button>
 
           <div className={`collapse navbar-collapse ${language === 'ka' ? 'geo-nav' : ''} ${isMenuOpen ? 'show' : ''}`} id="navbarSupportedContent">
-            <ul className="navbar-nav mx-auto" style={{ flexDirection: 'row', gap: '5px' }}>
+            <ul className="navbar-nav mx-auto">
               {/* 3. ლინკზე დაჭერისას მენიუ იხურება და ხატულა ბრუნდება საწყის სახეში */}
               <li className="nav-item active">
                 <Link className="nav-link" href="#home" style={navLinkStyle} onClick={() => setIsMenuOpen(false)}>
@@ -68,7 +69,7 @@ export default function Header() {
               </li>
             </ul>
 
-            <div className="user_option" style={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
+            <div className="user_option" style={{ display: 'flex', alignItems: 'center' }}>
               <button 
                 onClick={() => setLanguage(language === 'ka' ? 'en' : 'ka')}
                 style={langButtonStyle}

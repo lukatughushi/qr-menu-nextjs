@@ -1,97 +1,363 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
+import { supabase } from '../lib/supabaseClient';
 
-// 1. მონაცემების მასივი ორივე ენის სათაურით
-const offers = [
-  {
-    id: 101,
-    title_en: 'Tasty Thursdays',
-    title_ka: 'გემრიელი ხუთშაბათი',
-    discount: '20%',
-    price: 12,
-    image: '/images/o1.jpg',
-  },
-  {
-    id: 102,
-    title_en: 'Pizza Days',
-    title_ka: 'პიცის დღეები',
-    discount: '15%',
-    price: 15,
-    image: '/images/o2.jpg',
-  },
-];
+const FALLBACK_IMAGE =
+  'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=500';
+
+interface OfferItem {
+  id: number;
+  name: string;
+  name_en: string | null;
+  description: string | null;
+  description_en: string | null;
+  price: number;
+  discount_percent: number;
+  image_url: string | null;
+}
 
 export default function Offer() {
-  // 2. შემოგვაქვს საჭირო მნიშვნელობები კონტექსტიდან
-  const { addToCart, language, t } = useCart();
+  const { addToCart, t, language } = useCart();
+  const [offers, setOffers] = useState<OfferItem[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from('menu_items')
+      .select('id, name, name_en, description, description_en, price, discount_percent, image_url')
+      .eq('is_visible', true)
+      .gt('discount_percent', 0)
+      .order('discount_percent', { ascending: false })
+      .then(({ data, error }) => {
+        if (!error) setOffers(data ?? []);
+      });
+  }, []);
+
+  if (offers.length === 0) return null;
 
   return (
-    <section className="offer_section layout_padding-bottom">
-      <div className="offer_container">
-        <div className="container">
-          <div className="row">
-            {offers.map((offer) => {
-              // დინამიურად ვირჩევთ სათაურს ეკრანზე გამოსაჩენად
-              const displayTitle = language === 'ka' ? offer.title_ka : offer.title_en;
+    <section className="ofv3-section">
+      <div className="container">
 
-              return (
-                <div key={offer.id} className="col-md-6">
-                  <div className="box">
-                    <div className="img-box">
-                      <img src={offer.image} alt={displayTitle} />
-                    </div>
-                    <div className="detail-box">
-                      <h5>{displayTitle}</h5>
-                      <h6>
-                        <span>{offer.discount}</span> Off
-                      </h6>
-                      
-                      <button 
-                        onClick={() => addToCart({
-                          id: offer.id,
-                          // გადავცემთ ორივე სათაურს, რომ კალათამ შეძლოს მათი დინამიურად შეცვლა
-                          title_en: offer.title_en,
-                          title_ka: offer.title_ka,
-                          price: offer.price,
-                          image: offer.image
-                        })}
-                        className="btn"
-                        style={{
-                          backgroundColor: '#ffbe33',
-                          color: 'white',
-                          borderRadius: '45px',
-                          padding: '10px 25px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          border: 'none',
-                          cursor: 'pointer'
-                        }}
-                      >
-                        {/* ტექსტი იცვლება ენის მიხედვით */}
-                        {t.add_offer || (language === 'ka' ? 'კალათაში დამატება' : 'Add to Cart')}
-                        <svg
-                          version="1.1"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 456.029 456.029"
-                          style={{ width: '20px', marginLeft: '10px', fill: 'white' }}
-                        >
-                          <g>
-                            <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248 c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
-                            <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48 C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064 c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4 C457.728,97.71,450.56,86.958,439.296,84.91z" />
-                            <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296 c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
-                          </g>
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+        {/* ── Section heading ──────────────────────────────────── */}
+        <div className="ofv3-header">
+          <h2 className="ofv3-main-title">
+            {language === 'en' ? 'Daily Specials' : 'დღის შეთავაზება'}
+          </h2>
+          <div className="ofv3-rule" aria-hidden="true">
+            <span className="ofv3-rule-line" />
+            <span className="ofv3-rule-gem"  />
+            <span className="ofv3-rule-line" />
           </div>
         </div>
+
+        {/* ── 2-column grid ────────────────────────────────────── */}
+        <div className="ofv3-grid">
+          {offers.map(offer => {
+            const imgSrc     = offer.image_url || FALLBACK_IMAGE;
+            const discount   = offer.discount_percent;
+            const discounted = +(offer.price * (1 - discount / 100)).toFixed(2);
+            const name = language === 'en' && offer.name_en ? offer.name_en : offer.name;
+            const desc =
+              language === 'en' && offer.description_en
+                ? offer.description_en
+                : offer.description;
+            const discountLabel = discount >= 50 ? `1+1\nუფასო` : `-${discount}%`;
+
+            return (
+              <div key={offer.id} className="ofv3-card">
+
+                {/* ── LEFT HALF — product image ── */}
+                <div className="ofv3-img-half">
+                  <img
+                    src={imgSrc}
+                    alt={name}
+                    className="ofv3-img"
+                    onError={e => {
+                      (e.currentTarget as HTMLImageElement).src = FALLBACK_IMAGE;
+                    }}
+                  />
+                </div>
+
+                {/* ── RIGHT HALF — text content ── */}
+                <div className="ofv3-content-half">
+                  {/* Dominant element: big bold discount */}
+                  <div className="ofv3-discount">{discountLabel}</div>
+
+                  <h4 className="ofv3-name">{name}</h4>
+
+                  {desc && <p className="ofv3-desc">{desc}</p>}
+
+                  {/* Price + button row — pinned to bottom of content half */}
+                  <div className="ofv3-bottom-row">
+                    <div className="ofv3-prices">
+                      <span className="ofv3-price-new">₾{discounted}</span>
+                      <span className="ofv3-price-old">₾{offer.price.toFixed(2)}</span>
+                    </div>
+                    <button
+                      className="ofv3-btn"
+                      onClick={() =>
+                        addToCart({
+                          id: offer.id,
+                          title_en: offer.name_en || offer.name,
+                          title_ka: offer.name,
+                          price: discounted,
+                          image: imgSrc,
+                        })
+                      }
+                    >
+                      <i className="fa fa-shopping-cart ofv3-btn-icon" />
+                      <span className="ofv3-btn-text">{t.add_offer}</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
       </div>
+
+      <style>{`
+        /* ═══════════════════════════════════════════════════════════
+           OFFER SECTION — Clean 50/50 Card Layout  (no border frame)
+           ═══════════════════════════════════════════════════════════ */
+
+        .ofv3-section { padding: 60px 0 70px; }
+
+        /* ── Heading ─────────────────────────────────────────────── */
+        .ofv3-header {
+          text-align: center;
+          margin-bottom: 36px;
+        }
+        .ofv3-main-title {
+          font-family: 'Dancing Script', cursive;
+          font-size: clamp(2rem, 4vw, 2.8rem);
+          font-weight: 700;
+          color: #ffffff;
+          margin: 0 0 12px;
+          line-height: 1.15;
+        }
+        /* Thin decorative rule with amber gem */
+        .ofv3-rule {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          max-width: 200px;
+          margin: 0 auto;
+        }
+        .ofv3-rule-line {
+          flex: 1;
+          height: 1px;
+          background: rgba(255, 190, 51, 0.38);
+        }
+        .ofv3-rule-gem {
+          width: 7px;
+          height: 7px;
+          background: #ffbe33;
+          transform: rotate(45deg);
+          flex-shrink: 0;
+          box-shadow: 0 0 6px rgba(255, 190, 51, 0.5);
+        }
+
+        /* ── 2-column grid ───────────────────────────────────────── */
+        .ofv3-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 20px;
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           DESKTOP CARD  ≥ 768px — horizontal 50/50 rectangle
+           ══════════════════════════════════════════════════════════ */
+
+        .ofv3-card {
+          display: flex;
+          flex-direction: row;
+          height: 178px;          /* compact landscape height */
+          background: #ffffff;
+          border-radius: 14px;
+          overflow: hidden;
+          /* subtle elevation — no heavy border */
+          box-shadow:
+            0 1px 3px rgba(0, 0, 0, 0.07),
+            0 4px 14px rgba(0, 0, 0, 0.09);
+          transition: transform 0.26s ease, box-shadow 0.26s ease;
+        }
+        .ofv3-card:hover {
+          transform: translateY(-5px);
+          box-shadow:
+            0 2px 6px rgba(0, 0, 0, 0.07),
+            0 10px 28px rgba(0, 0, 0, 0.14);
+        }
+        .ofv3-card:active { transform: scale(0.975); transition-duration: 0.1s; }
+
+        /* ── Left half: image fills exactly 50% of card width ── */
+        .ofv3-img-half {
+          flex: 0 0 50%;
+          overflow: hidden;
+          position: relative;
+        }
+        .ofv3-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+          transition: transform 0.42s ease;
+        }
+        .ofv3-card:hover .ofv3-img { transform: scale(1.06); }
+
+        /* ── Right half: content fills the other 50% ─────────── */
+        .ofv3-content-half {
+          flex: 0 0 50%;
+          min-width: 0;
+          padding: 16px 20px 16px;
+          display: flex;
+          flex-direction: column;
+          background: #ffffff;
+          overflow: hidden;
+        }
+
+        /* Dominant text — must be the biggest thing on the card */
+        .ofv3-discount {
+          font-size: clamp(1.9rem, 3.2vw, 2.7rem);
+          font-weight: 900;
+          color: #ffbe33;
+          line-height: 1.0;
+          white-space: pre-line;   /* renders the \n in "1+1\nუფასო" */
+          letter-spacing: -0.5px;
+          flex-shrink: 0;
+        }
+
+        .ofv3-name {
+          font-family: 'Dancing Script', cursive;
+          font-size: 1.15rem;
+          color: #1a1a1a;
+          margin: 5px 0 0;
+          line-height: 1.2;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          flex-shrink: 0;
+        }
+
+        .ofv3-desc {
+          font-size: 11.5px;
+          color: #888;
+          margin: 3px 0 0;
+          line-height: 1.4;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          flex-shrink: 0;
+        }
+
+        /* Price + button — pushed to the card bottom */
+        .ofv3-bottom-row {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-top: auto;
+          padding-top: 6px;
+        }
+        .ofv3-prices {
+          display: flex;
+          align-items: baseline;
+          gap: 5px;
+          flex-shrink: 0;
+        }
+        .ofv3-price-new {
+          font-size: 1.05rem;
+          font-weight: 700;
+          color: #1a1a1a;
+        }
+        .ofv3-price-old {
+          font-size: 11px;
+          color: #bbb;
+          text-decoration: line-through;
+        }
+
+        /* Dark button stretches to fill the remaining right-half width */
+        .ofv3-btn {
+          flex: 1;
+          min-width: 0;
+          padding: 8px 10px;
+          background: #222831;
+          color: #ffffff;
+          border: none;
+          border-radius: 8px;
+          font-size: 12px;
+          font-weight: 600;
+          font-family: inherit;
+          cursor: pointer;
+          transition: background 0.2s, color 0.2s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+        .ofv3-btn:hover { background: #ffbe33; color: #1a1a1a; }
+        .ofv3-btn-icon  { font-size: 11px; flex-shrink: 0; }
+
+        /* ══════════════════════════════════════════════════════════
+           MOBILE  < 768px — vertical cards, 2-column grid
+           ══════════════════════════════════════════════════════════ */
+        @media (max-width: 767px) {
+          .ofv3-section { padding: 44px 0 52px; }
+          .ofv3-header  { margin-bottom: 22px; }
+          .ofv3-grid    { gap: 10px; }
+
+          /* Flip to vertical */
+          .ofv3-card {
+            flex-direction: column;
+            height: auto;
+          }
+          /* Image becomes a top band */
+          .ofv3-img-half {
+            flex: none;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            height: auto;
+          }
+          /* Content fills below */
+          .ofv3-content-half {
+            flex: none;
+            width: 100%;
+            padding: 10px 11px 12px;
+            gap: 6px;
+          }
+          .ofv3-discount   { font-size: clamp(1.4rem, 7vw, 2rem); }
+          .ofv3-name       { font-size: 0.95rem; white-space: normal; }
+          /* Stack price and button vertically */
+          .ofv3-bottom-row {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 6px;
+            padding-top: 4px;
+          }
+          .ofv3-price-new  { font-size: 0.95rem; }
+          .ofv3-btn        { font-size: 12px; border-radius: 7px; padding: 8px 10px; }
+        }
+
+        /* ── Very small phones  ≤ 430px ──────────────────────── */
+        @media (max-width: 430px) {
+          .ofv3-grid          { gap: 8px; }
+          .ofv3-content-half  { padding: 8px 8px 10px; gap: 5px; }
+          .ofv3-discount      { font-size: clamp(1.1rem, 7vw, 1.45rem); }
+          .ofv3-name          { font-size: 0.85rem; }
+          .ofv3-desc          { display: none; }
+          .ofv3-price-new     { font-size: 0.85rem; }
+          .ofv3-price-old     { font-size: 10px; }
+          /* Icon-only button saves horizontal space */
+          .ofv3-btn-text      { display: none; }
+          .ofv3-btn           { flex: none; width: 100%; padding: 8px; }
+        }
+      `}</style>
     </section>
   );
 }

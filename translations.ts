@@ -40,6 +40,8 @@ export const translations = {
     phone_placeholder: "Phone Number",
     email_placeholder: "Your Email",
     persons_placeholder: "How many persons?",
+    date_placeholder: "Select Date",
+    booking_datetime: "Booking Date & Time",
     book_now: "Book Now",
 
     // Footer სექცია
@@ -92,6 +94,8 @@ export const translations = {
     phone_placeholder: "ტელეფონის ნომერი",
     email_placeholder: "თქვენი ელ-ფოსტა",
     persons_placeholder: "რამდენი ადამიანი?",
+    date_placeholder: "აირჩიეთ თარიღი",
+    booking_datetime: "ჯავშნის თარიღი და დრო",
     book_now: "დაჯავშნე ახლავე",
 
     // Footer სექცია

@@ -1,343 +1,188 @@
-@media (max-width: 1300px) {}
+/* ============================================================
+   RESPONSIVE.CSS – single, authoritative, conflict-free
+   ============================================================ */
 
-@media (max-width: 1120px) {}
+/* ── TABLET + MOBILE  (≤ 991px) ────────────────────────────── */
 @media (max-width: 991px) {
-  /* 1. ჰედერის სიმაღლის მინიმუმამდე დაყვანა */
+
+  /* 1. Header: always fixed so it doesn't jump during scroll */
   .header_section {
-    padding: 0 !important; /* სრულად ვაშორებთ დაშორებებს */
-    height: 50px !important; /* ვაფიქსირებთ პატარა სიმაღლეს */
-    display: flex;
-    align-items: center;
-  }
-
-  /* 2. ლოგოს კონტეინერის და სურათის შემცირება */
-  .navbar-brand {
-    margin: 0 !important;
-    padding: 0 !important;
-    display: flex;
-    align-items: center;
-  }
-
-  .navbar-brand img {
-    width: 80px !important; /* ლოგოს საგრძნობლად დაპატარავება */
-    height: auto !important;
-    max-height: 35px; /* სიმაღლის ლიმიტი ლოგოსთვის */
-  }
-
-  /* 3. ნავბარის კონტეინერის სიმაღლის გასწორება */
-  .custom_nav-container {
-    height: 100%;
-    padding: 0 10px !important;
-  }
-
-  /* 4. ჰამბურგერ/იქს ღილაკის შემცირება */
-  .navbar-toggler {
-    padding: 0 !important;
-    width: 35px;
-    height: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none !important;
-  }
-
-  .navbar-toggler-icon i {
-    font-size: 1.1rem !important;
-  }
-
-  /* 5. ენის და კალათის ხატულების დაპატარავება */
-  .user_option {
-    margin: 0 !important;
-    gap: 8px !important;
-  }
-
-  .lang_btn, .cart_link svg {
-    transform: scale(0.85); /* ყველა ხატულას 15%-ით ვამცირებთ */
-  }
-}
-
-@media (max-width: 992px) {
-  /* 1. ჰედერის გასწორება: ვაშორებთ აბსოლუტურ პოზიციას, რომ ტექსტს არ გადაეფაროს */
-  .header_section {
-    position: relative !important;
-    background-color: #222; /* მუქი ფონი მობილურისთვის */
-  }
-
-  .hero_area {
-    min-height: auto;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* 2. ტექსტის სივრცე */
-  .hero_area .slider_section {
-    padding-top: 40px;
-    padding-bottom: 40px;
-  }
-
-  .custom_nav-container .navbar-nav {
-    padding-top: 15px;
-    padding-left: 0;
-    align-items: center;
-  }
-
-  .user_option {
-    justify-content: center;
-    margin-top: 15px;
-  }
-
-  .custom_nav-container .navbar-nav .nav-item .nav-link {
-    padding: 5px 25px;
-    margin: 5px 0;
-  }
-
-  .slider_section .carousel-indicators {
-    margin-top: 45px;
-  }
-
-  .offer_section .box {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .offer_section .box .img-box {
-    margin-right: 0;
-    margin-bottom: 15px;
-  }
-}
-
-@media (max-width: 767px) {
-  /* 3. Hero ტექსტის ზომის ოპტიმიზაცია მობილურისთვის */
-  .slider_section .detail-box h1 {
-    font-size: 2.8rem; /* სათაურის დაპატარავება */
-    line-height: 1.2;
-  }
-
-  .slider_section .detail-box p {
-    font-size: 14px;
-    margin-top: 10px;
-  }
-
-  .about_section .detail-box,
-  .book_section .form_container {
-    margin-bottom: 45px;
-  }
-
-  .about_section .row {
-    flex-direction: column-reverse;
-  }
-
-  .offer_section .box {
-    flex-direction: row;
-    text-align: left;
-  }
-
-  .offer_section .box .img-box {
-    margin-right: 15px;
-    margin-bottom: 0;
-  }
-}
-
-@media (max-width: 576px) {
-  /* 4. ბურგერის სურათის ზომა, რომ ეკრანზე დაეტიოს */
-  .slider_section .img-box img {
-    max-width: 90%;
-    height: auto;
-    margin: 0 auto;
-  }
-}
-
-@media (max-width: 480px) {}
-
-@media (max-width: 430px) {
-  .offer_section .box {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .offer_section .box .img-box {
-    margin-right: 0;
-    margin-bottom: 15px;
-  }
-}
-
-@media (max-width: 376px) {
-  .slider_section .detail-box h1 {
-    font-size: 2.2rem;
-  }
-}
-
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1170px;
-  }
-}
-
-@media (min-width:576px) and (max-width:991px) {
-  .rent_solution_container .col-md-4.col-sm-6 {
-    float: left;
-    width: 50%;
-  }
-}
-@media (max-width: 991px) {
-  .header_section {
-    /* მობილურზე ჰედერი აღარ "ტივტივებს" */
-    position: relative !important; 
-    background-color: #222831; /* მყარი ფერი უკეთესი წაკითხვადობისთვის */
-  }
-
-  .slider_section {
-    /* მობილურზე ზედმეტი padding აღარ გვჭირდება, რადგან header უკვე relative-ია */
-    padding: 40px 0 75px 0; 
-  }
-
-  .slider_section .detail-box {
-    /* მობილურზე ტექსტი ცენტრში ჯობია */
-    margin-bottom: 40px;
-    text-align: center;
-  }
-}
-@media (max-width: 992px) {
-  /* 1. ჰედერის გასწორება */
-  .header_section {
-    position: relative !important;
-    background-color: #222831 !important; /* */
-  }
-
-  /* ნავიგაციის ჩამონათვალი მობაილზე */
-  .navbar-collapse {
-    background-color: #222831;
-    border-radius: 10px;
-    padding: 15px;
-    margin-top: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  }
-
-  /* აიძულებს ელემენტებს დალაგდნენ ვერტიკალურად ჩამოშლილ მენიუში */
-  .custom_nav-container .navbar-nav {
-    flex-direction: column !important; 
-    align-items: center !important;
-    gap: 10px;
-  }
-
-  /* ქართული ტექსტის ოპტიმიზაცია მობაილისთვის */
-  .geo-nav .nav-link {
-    font-size: 16px !important;
-    white-space: normal !important; /* მობაილზე ჩამოსვლა დასაშვებია */
-    text-align: center;
-  }
-
-  /* მომხმარებლის ოფციები (ენა, კალათა, ძებნა) */
-  .user_option {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap; /* */
-    gap: 15px;
-    margin-top: 20px;
-    padding-bottom: 10px;
-  }
-
-  /* "შეუკვეთე" ღილაკის გასწორება */
-  .order_online {
-    margin-top: 5px;
-    width: 80%; /* მობაილზე უფრო განიერი ღილაკი */
-    text-align: center;
-  }
-
-  .hero_area {
-    min-height: auto;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* ... დანარჩენი შენი კოდი 992px-ისთვის ... */
-}
-
-@media (max-width: 576px) {
-  /* ლოგოს ზომის ოპტიმიზაცია პატარა ეკრანებისთვის */
-  .navbar-brand img {
-    width: 110px !important;
-    height: auto !important;
-  }
-
-  /* ენის გადამრთველის და კალათის დაშორება */
-  .user_option {
-    gap: 10px;
-  }
-
-  /* ბურგერის სურათის ზომა */
-  .slider_section .img-box img {
-    max-width: 85%;
-    height: auto;
-    margin: 0 auto;
-  }
-}@media (max-width: 991px) {
-  /* 1. ჰედერის კონტეინერის გასწორება */
-  .custom_nav-container {
-    padding: 10px 15px !important;
-    flex-wrap: wrap; /* საშუალებას აძლევს ელემენტებს ჩამოიშალონ */
-  }
-
-  /* 2. ჩამოსაშლელი მენიუს (Collapse) სტილი */
-  .navbar-collapse {
-    position: absolute;
-    top: 100%; /* ჰედერის ქვემოთ */
+    position: fixed !important;
+    top: 0;
     left: 0;
     width: 100%;
-    background-color: #222831; /* მყარი მუქი ფონი */
-    z-index: 999;
-    padding: 20px;
-    box-shadow: 0 10px 15px rgba(0,0,0,0.5);
-    border-top: 1px solid #333;
+    padding: 10px 0 !important;
+    background-color: #222831 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    z-index: 10000;
   }
 
-  /* 3. ნავიგაციის სიის გასწორება */
-  .navbar-nav {
+  /* 2. Nav container: relative so the dropdown is positioned against it */
+  .custom_nav-container {
+    padding: 0 15px !important;
+    flex-wrap: wrap;
+    position: relative;
+    height: auto !important;
+  }
+
+  /* 3. Collapsible dropdown panel */
+  .navbar-collapse {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #222831;
+    z-index: 9999;
+    padding: 16px 20px 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* 4. Nav items: stack vertically, centred */
+  .custom_nav-container .navbar-nav {
     flex-direction: column !important;
     align-items: center !important;
     width: 100%;
     padding: 0 !important;
+    gap: 0;
   }
 
   .nav-item {
     width: 100%;
     text-align: center;
-    margin: 10px 0 !important;
+    margin: 0 !important;
   }
 
-  .nav-link {
-    font-size: 18px !important;
+  .custom_nav-container .navbar-nav .nav-item .nav-link {
     display: block !important;
-    width: 100%;
+    padding: 12px 20px !important;
+    font-size: 16px !important;
+    white-space: normal !important;
+    text-align: center;
+    border-radius: 6px;
+    margin: 2px 0;
   }
 
-  /* 4. მომხმარებლის ოფციები (ენა, ძებნა, კალათა) */
+  /* 5. User options row */
   .user_option {
-    flex-direction: row !important; /* მობილურზეც დარჩეს გვერდიგვერდ */
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
     justify-content: center !important;
+    align-items: center !important;
     width: 100%;
-    margin-top: 20px;
-    gap: 20px;
-    padding-top: 15px;
-    border-top: 1px solid #444;
+    gap: 12px !important;
+    margin-top: 16px !important;
+    padding-top: 16px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* 6. Order Online button – minimum 44px touch target */
+  .user_option .order_online {
+    padding: 10px 24px !important;
+    font-size: 14px;
+    min-height: 44px;
+    display: inline-flex !important;
+    align-items: center;
+  }
+
+  /* 7. Icon buttons (lang switcher, cart, search) – 44px touch targets */
+  .user_option button,
+  .user_option .cart_link {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 8. Hero area min-height reset (height is overridden by Hero.tsx) */
+  .hero_area {
+    min-height: auto;
+  }
+
+  /* 9. (offer cards are now self-contained in Offer.tsx) */
+
+  /* 10. Carousel indicators */
+  .slider_section .carousel-indicators {
+    margin-top: 45px;
   }
 }
-@media (max-width: 991px) {
-  .header_section {
-    /* ვცვლით relative-ს fixed-ით, რომ ნავბარმა იმოძრაოს სქროლვისას */
-    position: fixed !important; 
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 10000; /* ძალიან მაღალი ინდექსი, რომ არაფერი გადაეფაროს */
-    background-color: #222831 !important; /* მყარი ფონი, რომ ტექსტი არ აირიოს */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+
+/* ── MOBILE ONLY  (≤ 767px) ────────────────────────────────── */
+@media (max-width: 767px) {
+
+  /* Prevent containers from touching screen edges */
+  .container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
   }
 
-  /* ვამატებთ დაშორებას სლაიდერისთვის, რადგან ჰედერი fixed გახდა */
-  .slider_section {
-    padding-top: 100px !important; 
+  /* Hero text */
+  .slider_section .detail-box h1 {
+    font-size: 2.2rem;
+    line-height: 1.2;
+  }
+
+  .slider_section .detail-box p {
+    font-size: 13px;
+    margin-top: 8px;
+  }
+
+  /* About section */
+  .about_section .row {
+    flex-direction: column-reverse;
+  }
+
+  .about_section .detail-box,
+  .book_section .form_container {
+    margin-bottom: 30px;
+  }
+
+
+}
+
+/* ── SMALL MOBILE  (≤ 576px) ───────────────────────────────── */
+@media (max-width: 576px) {
+
+  .navbar-brand img {
+    width: 100px !important;
+    height: auto !important;
+  }
+
+  .slider_section .detail-box h1 {
+    font-size: 1.8rem;
+  }
+
+  .slider_section .img-box img {
+    max-width: 90%;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  /* Food filter tabs: tighter on small screens */
+  .food_section .filters_menu li {
+    padding: 6px 16px;
+    font-size: 14px;
+  }
+}
+
+/* ── VERY SMALL PHONES  (≤ 430px) ──────────────────────────── */
+@media (max-width: 430px) {
+
+
+}
+
+/* ── TINY PHONES  (≤ 376px) ────────────────────────────────── */
+@media (max-width: 376px) {
+  .slider_section .detail-box h1 {
+    font-size: 1.5rem;
+  }
+}
+
+/* ── LARGE DESKTOP  (≥ 1200px) ─────────────────────────────── */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1170px;
   }
 }

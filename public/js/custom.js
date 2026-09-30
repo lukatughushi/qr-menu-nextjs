@@ -39,11 +39,6 @@ $(window).on('load', function () {
 // 3. ბიბლიოთეკების ინიციალიზაცია (Nice Select, Owl Carousel, Bootstrap Carousel)
 $(document).ready(function () {
     
-    // Nice Select-ის შემოწმება
-    if (typeof $.fn.niceSelect !== 'undefined' && $('select').length > 0) {
-        $('select').niceSelect();
-    }
-
     // Owl Carousel (კლიენტების მიმოხილვისთვის)
     if (typeof $.fn.owlCarousel !== 'undefined' && $(".client_owl-carousel").length > 0) {
         $(".client_owl-carousel").owlCarousel({

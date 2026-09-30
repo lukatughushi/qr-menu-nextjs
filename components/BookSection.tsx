@@ -1,17 +1,40 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { useCart } from '../context/CartContext';
 
+// Forward-ref wrapper: readOnly so the keyboard can't type directly,
+// click opens the calendar, and DatePicker can attach its own ref.
+const DateInput = React.forwardRef<
+  HTMLInputElement,
+  React.InputHTMLAttributes<HTMLInputElement>
+>((props, ref) => (
+  <input
+    {...props}
+    ref={ref}
+    readOnly
+    className="form-control"
+    style={{ cursor: 'pointer', backgroundColor: 'white' }}
+  />
+));
+DateInput.displayName = 'DateInput';
+
+// Block time slots that have already passed today.
+function filterPassedTime(time: Date): boolean {
+  return new Date().getTime() < time.getTime();
+}
+
 export default function BookSection() {
-  // ვიღებთ t ობიექტს და language-ს კონტექსტიდან
-  const { t, language } = useCart(); 
+  const { t, language } = useCart();
+  const [persons, setPersons] = useState('');
+  const [bookingDate, setBookingDate] = useState<Date | null>(null);
 
   return (
     <section className="book_section layout_padding" id="book">
       <div className="container">
         <div className="heading_container">
-          {/* თარგმნილი სათაური translations.ts-დან */}
           <h2>{t.book_title}</h2>
         </div>
         <div className="row">
@@ -19,32 +42,32 @@ export default function BookSection() {
             <div className="form_container">
               <form action="">
                 <div>
-                  <input 
-                    type="text" 
-                    className="form-control" 
-                    placeholder={t.name_placeholder} 
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder={t.name_placeholder}
                   />
                 </div>
                 <div>
-                  <input 
-                    type="text" 
-                    className="form-control" 
-                    placeholder={t.phone_placeholder} 
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder={t.phone_placeholder}
                   />
                 </div>
                 <div>
-                  <input 
-                    type="email" 
-                    className="form-control" 
-                    placeholder={t.email_placeholder} 
+                  <input
+                    type="email"
+                    className="form-control"
+                    placeholder={t.email_placeholder}
                   />
                 </div>
                 <div>
-                  {/* key={language} აიძულებს select-ს განახლდეს ენის შეცვლისას */}
-                  <select 
-                    key={language} 
-                    className="form-control nice-select wide" 
-                    defaultValue=""
+                  <select
+                    key={language}
+                    className="form-control"
+                    value={persons}
+                    onChange={(e) => setPersons(e.target.value)}
                   >
                     <option value="" disabled>
                       {t.persons_placeholder}
@@ -56,10 +79,31 @@ export default function BookSection() {
                   </select>
                 </div>
                 <div>
-                  <input type="date" className="form-control" />
+                  <label
+                    style={{
+                      display: 'block',
+                      color: 'white',
+                      fontSize: '14px',
+                      marginBottom: '4px',
+                    }}
+                  >
+                    {t.booking_datetime}
+                  </label>
+                  <DatePicker
+                    key={language}
+                    selected={bookingDate}
+                    onChange={(date: Date | null) => setBookingDate(date)}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    dateFormat="dd/MM/yyyy HH:mm"
+                    minDate={new Date()}
+                    filterTime={filterPassedTime}
+                    placeholderText={t.booking_datetime}
+                    customInput={<DateInput />}
+                  />
                 </div>
                 <div className="btn_box">
-                  {/* თარგმნილი ღილაკი */}
                   <button type="submit">{t.book_now}</button>
                 </div>
               </form>

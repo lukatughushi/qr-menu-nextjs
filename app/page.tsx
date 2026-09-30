@@ -10,9 +10,6 @@ export default function Home() {
   return (
     <>
       <div className="hero_area" id="home">
-        <div className="bg-box">
-          <img src="/images/hero-bg.jpg" alt="Background" />
-        </div>
         <Header />
         <Hero />
       </div>
