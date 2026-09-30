@@ -1,0 +1,20 @@
+# Render Blueprint for the backend API (frontend is deployed separately on Vercel).
+services:
+  - type: web
+    name: cafe-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    plan: free
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      # Comma-separated frontend origins, e.g. https://your-app.vercel.app
+      - key: CORS_ORIGIN
+        sync: false
